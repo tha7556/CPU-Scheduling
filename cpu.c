@@ -17,7 +17,7 @@ char *toString(PCB *pcb);
 Queue queue; //This is probably wrong
 void cpu_init()
 {
-    setTimer(1000000);
+    set_timer(1000000);
     initQueue(&queue);
 }
 
