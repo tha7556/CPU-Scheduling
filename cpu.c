@@ -33,6 +33,15 @@ void dispatch()
 void insert_ready(PCB *pcb)
 {
 
+    if (pcb -> last_dispatch == 0)
+        pcb -> burst_estimate = 5;
+    else
+        pcb -> burst_estimate = (pcb -> burst_estimate*.6 + .4*pcb-> last_cpuburst);
+
+    pcb -> priority = pcb -> burst_estimate;
+    pcb -> status = ready;
+    enQueueSorted(&queue, pcb, *compareTo );
+
 }
 
 
