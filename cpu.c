@@ -14,9 +14,11 @@
 int compareTo(PCB *pcb1, PCB *pcb2);
 char *toString(PCB *pcb);
 
+Queue queue; //This is probably wrong
 void cpu_init()
 {
-
+    setTimer(1000000);
+    initQueue(&queue);
 }
 
 
