@@ -33,14 +33,14 @@ void dispatch()
 void insert_ready(PCB *pcb)
 {
 
-    if (pcb -> last_dispatch == 0)
+    if (pcb -> last_dispatch == 0) //If it is a new process
         pcb -> burst_estimate = 5;
-    else
-        pcb -> burst_estimate = (pcb -> burst_estimate*.6 + .4*pcb-> last_cpuburst);
+    else //If the process has been run before
+        pcb -> burst_estimate = (pcb -> burst_estimate*.6) + (.4*pcb-> last_cpuburst);
 
-    pcb -> priority = pcb -> burst_estimate;
+    pcb -> priority = pcb -> burst_estimate; //Priority = burst estimate
     pcb -> status = ready;
-    enQueueSorted(&queue, pcb, *compareTo );
+    enQueueSorted(&queue, pcb, *compareTo ); //Add to priority queue
 
 }
 
