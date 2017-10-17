@@ -30,8 +30,12 @@ void dispatch()
     if(PTBR != NULL && PTBR->pcb != NULL && PTBR->pcb->status == running) { //If a process is already running
         PTBR->pcb->priority = PTBR-> pcb->burst_estimate - PTBR->pcb->this_cpuburst; //Priority = estimate - bursts so far
         if (______trace_switch) { printf("1\n"); }
-        if(compareTo(PTBR->pcb,p) <= 0) {//PTBR <= head of queue priority
+        if(p != NULL && compareTo(PTBR->pcb,p) <= 0) {//PTBR <= head of queue priority
             if (______trace_switch) { printf("2\n"); }
+            PTBR->pcb->last_dispatch = get_clock();
+            return;
+        }
+        else if(p == NULL) {
             PTBR->pcb->last_dispatch = get_clock();
             return;
         }
@@ -45,14 +49,18 @@ void dispatch()
         }
     }
     if (______trace_switch) { printf("5\n"); }
-    if(PTBR != NULL)
+    //Below is actual context switch
+    if(PTBR != NULL) {
         insert_ready(PTBR->pcb);
+    }
+    //p = frontValue(&queue);
     deQueue(&queue);
     p->status = running;
     PTBR = p->page_tbl;
-    if(______trace_switch) {printf("starting prepaging\n");}
     prepage(p);
-    p->last_dispatch = get_clock();
+    PTBR->pcb->last_dispatch = get_clock();
+
+
 	if (______trace_switch) {
                     printf("dispatch finished\n");
                 }
