@@ -50,7 +50,9 @@ void dispatch()
     }
     if (______trace_switch) { printf("5\n"); }
     //Below is actual context switch
-    if(PTBR != NULL) {
+
+    if(PTBR != NULL && PTBR -> pcb ->status == running) {
+            //There is only a process running when the above if statement is true
         insert_ready(PTBR->pcb);
     }
     //p = frontValue(&queue);
